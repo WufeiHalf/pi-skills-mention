@@ -2,24 +2,37 @@
   "name": "pi-skills-mention",
   "version": "0.1.0",
   "type": "module",
-  "description": "Codex-style `$skill-name` mentions for pi: expand any number of skills anywhere in a prompt, with live `$`-triggered skill autocompletion in the TUI.",
+  "description": "codex风格 · 输入$ 拉起skill列表。Codex-style $skill-name mentions for pi: input $ to pull up the skill list and autocomplete, expand any number of skills anywhere in a prompt.",
   "author": "wufei",
   "license": "MIT",
+  "homepage": "https://github.com/WufeiHalf/pi-skills-mention#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WufeiHalf/pi-skills-mention.git"
+  },
   "keywords": [
     "pi-package",
     "pi",
     "pi-extension",
+    "codex",
+    "codex-style",
+    "skill",
     "skills",
+    "skill-mention",
     "mention",
+    "$",
     "autocomplete",
-    "codex"
+    "completion",
+    "prompt"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "README.md"
   ],
   "peerDependencies": {
-    "@earendil-works/pi-coding-agent": ">=0.80.0",
-    "@earendil-works/pi-tui": ">=0.80.0"
-  },
-  "dependencies": {
-    "@sinclair/typebox": "^0.34.0"
+    "@earendil-works/pi-coding-agent": ">=0.83.0",
+    "@earendil-works/pi-tui": ">=0.83.0"
   },
   "scripts": {
     "build": "tsc",
