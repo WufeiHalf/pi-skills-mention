@@ -50,6 +50,7 @@
   "pi": {
     "extensions": [
       "./src/index.ts"
-    ]
+    ],
+    "image": "https://raw.githubusercontent.com/WufeiHalf/pi-skills-mention/main/media/preview.png"
   }
 }

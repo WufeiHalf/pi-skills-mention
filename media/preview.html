@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1280px; height: 720px;
+    background: radial-gradient(1200px 600px at 50% -10%, #1e2b45 0%, #0d1424 55%, #070b16 100%);
+    font-family: "SF Mono", "JetBrains Mono", "Cascadia Code", "Fira Code", monospace;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .glow {
+    position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5;
+  }
+  .glow.a { width: 460px; height: 460px; background: #4f7cff; top: -120px; right: -80px; }
+  .glow.b { width: 380px; height: 380px; background: #7c4dff; bottom: -140px; left: -100px; }
+
+  .card {
+    position: relative; z-index: 2;
+    width: 1120px;
+  }
+
+  /* Header brand */
+  .brand {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 22px; padding-left: 6px;
+  }
+  .logo {
+    font-size: 34px; font-weight: 700; color: #fff; letter-spacing: .5px;
+  }
+  .logo b { color: #7ea6ff; }
+  .tag {
+    font-size: 19px; color: #9fb0d8; letter-spacing: .3px;
+  }
+
+  /* Terminal window */
+  .terminal {
+    background: #0e1526;
+    border: 1px solid #26324d;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(120,150,255,.06) inset;
+    overflow: hidden;
+  }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 13px 16px;
+    background: linear-gradient(#1a2338, #151d30);
+    border-bottom: 1px solid #26324d;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+  .winname { margin-left: 12px; font-size: 13px; color: #8ea0c6; letter-spacing: .4px; }
+  .winname b { color: #bcd0ff; font-weight: 600; }
+
+  .body { padding: 26px 28px 28px; display: flex; flex-direction: column; gap: 14px; }
+
+  .history { font-size: 17px; line-height: 1.65; color: #d7e0f5; }
+  .history .dim { color: #7e8fb8; }
+  .prompt {
+    display: flex; align-items: center; gap: 8px;
+    color: #7ea6ff; font-size: 17px; font-weight: 700;
+  }
+
+  /* Input line with caret */
+  .inputrow { display: flex; align-items: center; gap: 10px; }
+  .input {
+    flex: 1;
+    display: flex; align-items: center; gap: 2px;
+    background: #131c31; border: 1px solid #2a3857; border-radius: 9px;
+    padding: 13px 14px; font-size: 17px; color: #eaf1ff;
+  }
+  .prompt-doll { color: #ffd866; font-weight: 700; font-size: 19px; margin-right: 6px; }
+  .caret {
+    width: 9px; height: 19px; background: #7ea6ff; border-radius: 2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Autocomplete dropdown */
+  .ac {
+    margin: 2px 0 0 26px;
+    background: #16203a;
+    border: 1px solid #2e3f68; border-radius: 10px;
+    overflow: hidden; width: 620px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.5);
+  }
+  .ac-line {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; font-size: 15.5px;
+  }
+  .ac-line.sel { background: #23325a; }
+  .ac-line .k {
+    color: #ffd866; font-weight: 700; width: 150px; flex-shrink: 0;
+  }
+  .ac-line .d { color: #9fb0d8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ac-line.sel .d { color: #cdd9f5; }
+  .ac-line .badge { margin-left: auto; color: #5d729f; font-size: 13px; }
+
+  /* footer bar */
+  .footer {
+    margin-top: 6px;
+    display: flex; gap: 18px; align-items: center;
+    font-size: 12.5px; color: #5f7198; letter-spacing: .3px;
+    padding-left: 6px;
+  }
+  .footer b { color: #8ea2c8; font-weight: 600; }
+  .footer .hl { color: #ffd866; }
+</style>
+</head>
+<body>
+  <div class="glow a"></div><div class="glow b"></div>
+
+  <div class="card">
+    <div class="brand">
+      <div class="logo">pi-skills-mention <b>· $</b></div>
+      <div class="tag">Codex-style skill mentions for Pi</div>
+    </div>
+
+    <div class="terminal">
+      <div class="titlebar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <div class="winname">wufei@pi — <b>skills-mention</b></div>
+      </div>
+
+      <div class="body">
+        <div class="history">
+          <div><span class="prompt">$</span>&nbsp; 用 <span class="hl" style="color:#ffd866;font-weight:700;">$code-review</span> 审查这段代码，再用 <span class="hl" style="color:#ffd866;font-weight:700;">$humanize</span> 润色结论</div>
+          <div class="dim">✓ 已展开 2 个 skill：code-review + humanize（任意位置 · 一次多个）</div>
+        </div>
+
+        <div class="inputrow">
+          <div class="input">
+            <span class="prompt-doll">$</span><span class="caret"></span>
+          </div>
+        </div>
+
+        <div class="ac">
+          <div class="ac-line sel">
+            <span class="k">$code-review</span>
+            <span class="d">审查分支改动：标准规约 + 规格符合性</span>
+            <span class="badge">↵ 插入</span>
+          </div>
+          <div class="ac-line">
+            <span class="k">$humanize</span>
+            <span class="d">去除 AI 痕迹，让文本读起来更自然</span>
+            <span class="badge"></span>
+          </div>
+          <div class="ac-line">
+            <span class="k">$tdd</span>
+            <span class="d">测试驱动开发：red-green-refactor</span>
+          </div>
+          <div class="ac-line">
+            <span class="k">$research</span>
+            <span class="d">针对高可信原始来源调研并沉淀为文档</span>
+          </div>
+        </div>
+
+        <div class="footer">
+          <span>输入 <b class="hl">$</b> 即拉取 skill 列表</span>
+          <span>空格后再输过滤</span>
+          <span>可用多个：<b>$a $b $c</b></span>
+          <span>转义 <b>$$name</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
