@@ -83,7 +83,7 @@
     margin: 2px 0 0 26px;
     background: #16203a;
     border: 1px solid #2e3f68; border-radius: 10px;
-    overflow: hidden; width: 620px;
+    overflow: hidden; width: 660px;
     box-shadow: 0 16px 40px rgba(0,0,0,.5);
   }
   .ac-line {
@@ -92,7 +92,7 @@
   }
   .ac-line.sel { background: #23325a; }
   .ac-line .k {
-    color: #ffd866; font-weight: 700; width: 150px; flex-shrink: 0;
+    color: #ffd866; font-weight: 700; width: 160px; flex-shrink: 0;
   }
   .ac-line .d { color: #9fb0d8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ac-line.sel .d { color: #cdd9f5; }
@@ -101,7 +101,7 @@
   /* footer bar */
   .footer {
     margin-top: 6px;
-    display: flex; gap: 18px; align-items: center;
+    display: flex; gap: 20px; align-items: center;
     font-size: 12.5px; color: #5f7198; letter-spacing: .3px;
     padding-left: 6px;
   }
@@ -126,8 +126,8 @@
 
       <div class="body">
         <div class="history">
-          <div><span class="prompt">$</span>&nbsp; 用 <span class="hl" style="color:#ffd866;font-weight:700;">$code-review</span> 审查这段代码，再用 <span class="hl" style="color:#ffd866;font-weight:700;">$humanize</span> 润色结论</div>
-          <div class="dim">✓ 已展开 2 个 skill：code-review + humanize（任意位置 · 一次多个）</div>
+          <div><span class="prompt">$</span>&nbsp;  review this code with <span style="color:#ffd866;font-weight:700;">$code-review</span>, then polish it with <span style="color:#ffd866;font-weight:700;">$humanize</span></div>
+          <div class="dim">✓ 2 skills expanded: code-review + humanize (anywhere · multiple at once)</div>
         </div>
 
         <div class="inputrow">
@@ -139,29 +139,29 @@
         <div class="ac">
           <div class="ac-line sel">
             <span class="k">$code-review</span>
-            <span class="d">审查分支改动：标准规约 + 规格符合性</span>
-            <span class="badge">↵ 插入</span>
+            <span class="d">Review changes since a git base: standards + spec compliance</span>
+            <span class="badge">↵ insert</span>
           </div>
           <div class="ac-line">
             <span class="k">$humanize</span>
-            <span class="d">去除 AI 痕迹，让文本读起来更自然</span>
+            <span class="d">Remove AI-sounding patterns, make text read naturally</span>
             <span class="badge"></span>
           </div>
           <div class="ac-line">
             <span class="k">$tdd</span>
-            <span class="d">测试驱动开发：red-green-refactor</span>
+            <span class="d">Test-driven development: red-green-refactor</span>
           </div>
           <div class="ac-line">
             <span class="k">$research</span>
-            <span class="d">针对高可信原始来源调研并沉淀为文档</span>
+            <span class="d">Investigate against trusted primary sources, write findings to a doc</span>
           </div>
         </div>
 
         <div class="footer">
-          <span>输入 <b class="hl">$</b> 即拉取 skill 列表</span>
-          <span>空格后再输过滤</span>
-          <span>可用多个：<b>$a $b $c</b></span>
-          <span>转义 <b>$$name</b></span>
+          <span>type <b class="hl">$</b> to pull up the skill list</span>
+          <span>keep typing to filter</span>
+          <span>multiple: <b>$a $b $c</b></span>
+          <span>escape <b>$$name</b></span>
         </div>
       </div>
     </div>

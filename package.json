@@ -28,7 +28,8 @@
   "files": [
     "src",
     "dist",
-    "README.md"
+    "README.md",
+    "README.zh.md"
   ],
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": ">=0.83.0",
