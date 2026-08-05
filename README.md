@@ -80,7 +80,7 @@ Each `$skill-name` is replaced with that skill's full `SKILL.md` instructions be
 
 - **Discovery** uses the skills pi already loaded into the session; on the first turn it falls back to pi's exported `loadSkills` seeder.
 - **Expansion** happens in the `input` event (via `transform`), so `$` works on every turn and in any position — escaping pi's single-start-only `/skill:` limitation.
-- **Autocomplete** wraps pi's built-in provider through `ctx.ui.addAutocompleteProvider`: it only takes over when the cursor sits inside a `$` mention token, otherwise it delegates to the original (commands, files, `@`-paths …).
+- **Autocomplete** wraps pi's built-in provider through `ctx.ui.addAutocompleteProvider`: it only takes over when the cursor sits inside a `$` mention token, otherwise it delegates to the original (commands, files, `@`-paths …). **Native `/` commands and `/skill:` are never disabled** — `$` is purely additive.
 
 ---
 

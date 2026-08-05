@@ -80,7 +80,7 @@ $code-review 与 $humanize 帮我审查 auth 模块的改动，并把结论润�
 
 - **发现**复用 pi 会话中已加载的 skill;首轮回退到 pi 导出的 `loadSkills`。
 - **展开**在 `input` 事件(`transform`)中完成,因此 `$` 在每一轮、任意位置都生效 —— 绕开了 pi 原生 `/skill:` 仅开头单次的限制。
-- **补全**通过 `ctx.ui.addAutocompleteProvider` 包装 pi 内置 provider:仅在光标位于 `$` 引用 token 内时接管,否则透传给原生(命令、文件、`@`-路径等)。
+- **补全**通过 `ctx.ui.addAutocompleteProvider` 包装 pi 内置 provider:仅在光标位于 `$` 引用 token 内时接管,否则透传给原生(命令、文件、`@`-路径等)。**原生 `/` 命令和 `/skill:` 不会被禁用** —— `$` 只是新增,不替换。
 
 ---
 

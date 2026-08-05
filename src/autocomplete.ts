@@ -75,6 +75,15 @@ export function createMentionAutocompleteProvider(inner: AutocompleteProvider, o
       item: AutocompleteItem,
       prefix: string,
     ) {
+      // Only take over for `$` mention completions. Everything else (slash
+      // commands, `@`/file paths) must be handed back to the wrapped provider;
+      // pi's native applyCompletion re-adds the leading `/` / `@` that its
+      // suggestion `item.value` deliberately omits. Intercepting those would
+      // drop the prefix and break native commands like `/reload`.
+      if (!prefix.startsWith("$")) {
+        return inner.applyCompletion(lines, cursorLine, cursorCol, item, prefix);
+      }
+
       const currentLine = lines[cursorLine] ?? "";
       const beforePrefix = currentLine.slice(0, cursorCol - prefix.length);
       const afterCursor = currentLine.slice(cursorCol);
