@@ -61,6 +61,7 @@ $code-review 与 $humanize 帮我审查 auth 模块的改动，并把结论润�
 
 ### 使用注意
 
+- **官方折叠展示** —— 当消息*以**单个 `$skill` 开头(如 `$tdd 帮我实现`)时,输出与 pi 原生 `/skill:name` 完全一致的格式,TUI 会显示可折叠的 `[skill]` 卡片(紫色标签 + 名字 + `ctrl+o to expand`)。如果 skill 出现在句子中间、或一条消息里多个 skill,则仍就地展开(pi 只能折叠"整条消息是单个 skill"的情形)。
 - **模糊补全** —— `$` 的匹配是模糊的,不只是前缀匹配:`$impv` 也能命中 `improve-codebase` 这类 skill(字母按顺序出现即可,不必连续)。前缀完全匹配的仍排最前。
 - 采用**最长匹配**:若同时存在 `code-review` 和 `code-review-module`,`$code-review-module` 会命中更长那个。
 - 不是已知 skill 的 token 原样保留 —— `$HOME`、`$PATH`、`$(cmd)` 不受影响。

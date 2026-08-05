@@ -1,4 +1,5 @@
 import { afterAll, describe, it, expect } from "vitest";
+import { parseSkillBlock } from "@earendil-works/pi-coding-agent";
 import { expandMentions } from "../src/mention.js";
 import type { MentionSkill } from "../src/skill-registry.js";
 
@@ -76,6 +77,36 @@ describe("expandMentions", () => {
     const res = expandMentions("$tdd 还有 $tdd", index(tdd));
     expect(res.expanded).toEqual(["tdd"]);
     expect((res.text.match(/<skill name="tdd"/g) ?? []).length).toBe(2);
+  });
+
+  it("emits pi's official collapsible shape when a single $skill starts the message", () => {
+    const res = expandMentions("$tdd 帮我实现", index(tdd));
+    expect(res.official).toBe(true);
+    // pi's parseSkillBlock must recognize it (=> the TUI shows the foldable [skill] card)
+    const parsed = parseSkillBlock(res.text);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.name).toBe("tdd");
+    expect(parsed?.userMessage).toBe("帮我实现");
+  });
+
+  it("bare single $skill is official (no trailing text)", () => {
+    const res = expandMentions("$tdd", index(tdd));
+    expect(res.official).toBe(true);
+    expect(parseSkillBlock(res.text)?.name).toBe("tdd");
+    expect(parseSkillBlock(res.text)?.userMessage).toBeUndefined();
+  });
+
+  it("multiple leading skills fall back to inline expansion (not official), still usable", () => {
+    const res = expandMentions("$tdd 然后 $code-review", index(tdd, codeReview));
+    expect(res.official).toBe(false);
+    expect(res.expanded).toEqual(["tdd", "code-review"]);
+    expect(res.text).toContain("<skill name=\"code-review\"");
+  });
+
+  it("mid-sentence mention is not official but still expands", () => {
+    const res = expandMentions("帮我 $tdd 做这个", index(tdd));
+    expect(res.official).toBe(false);
+    expect(res.expanded).toEqual(["tdd"]);
   });
 
   afterAll(() => {

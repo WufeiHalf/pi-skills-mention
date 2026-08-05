@@ -61,6 +61,7 @@ Each `$skill-name` is replaced with that skill's full `SKILL.md` instructions be
 
 ### Tips & edges
 
+- **Official collapsible rendering** — when a message *starts* with a single `$skill` (e.g. `$tdd 帮我实现`), the output is byte-for-byte pi's native `/skill:name` shape, so the TUI shows the foldable `[skill]` card (purple tag + name + `ctrl+o to expand`). Mentions that appear mid-sentence, or several skills at once, still expand inline (pi can only fold a whole-message single skill).
 - **Fuzzy autocomplete** — `$` matching is fuzzy, not prefix-only: `$impv` matches `improve-codebase`-style skills (letters in order, not necessarily consecutive). Prefix matches still rank first.
 - Skills resolve greedily to the **longest known match**: if both `code-review` and `code-review-module` exist, `$code-review-module` uses the bigger one.
 - A token that isn't a known skill stays literal — `$HOME`, `$PATH`, `$(cmd)` are untouched.
