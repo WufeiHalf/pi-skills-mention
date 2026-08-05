@@ -61,6 +61,7 @@ Each `$skill-name` is replaced with that skill's full `SKILL.md` instructions be
 
 ### Tips & edges
 
+- **Fuzzy autocomplete** — `$` matching is fuzzy, not prefix-only: `$impv` matches `improve-codebase`-style skills (letters in order, not necessarily consecutive). Prefix matches still rank first.
 - Skills resolve greedily to the **longest known match**: if both `code-review` and `code-review-module` exist, `$code-review-module` uses the bigger one.
 - A token that isn't a known skill stays literal — `$HOME`, `$PATH`, `$(cmd)` are untouched.
 - Use `$$name` to force a literal `$name`.

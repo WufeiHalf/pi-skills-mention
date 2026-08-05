@@ -58,6 +58,21 @@ describe("createMentionAutocompleteProvider", () => {
     expect(res).toBeNull();
   });
 
+  it("fuzzy-matches an abbreviation like $impv -> improve-codebase", async () => {
+    const improve: MentionSkill = { name: "improve-codebase", filePath: "/skills/improve-codebase/SKILL.md", baseDir: "/skills/improve-codebase" };
+    const res = await suggestions(["$impv"], 5, index(improve));
+    expect(res).not.toBeNull();
+    expect(res!.items.map((i) => i.value)).toContain("$improve-codebase");
+  });
+
+  it("ranks prefix matches ahead of weaker fuzzy hits", async () => {
+    const codeReview: MentionSkill = { name: "code-review", filePath: "/skills/code-review/SKILL.md", baseDir: "/skills/code-review" };
+    const improve: MentionSkill = { name: "improve-codebase", filePath: "/skills/improve-codebase/SKILL.md", baseDir: "/skills/improve-codebase" };
+    const res = await suggestions(["$cod"], 4, index(codeReview, improve));
+    expect(res).not.toBeNull();
+    expect(res!.items.map((i) => i.value)).toEqual(["$code-review", "$improve-codebase"]);
+  });
+
   it("applies a completion by replacing the $partial token", async () => {
     const provider = createMentionAutocompleteProvider(makeInner(), { getSkills: () => index(tdd, codeReview) });
     const lines = ["帮我 $cod 工作"];

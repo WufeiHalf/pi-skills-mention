@@ -61,6 +61,7 @@ $code-review 与 $humanize 帮我审查 auth 模块的改动，并把结论润�
 
 ### 使用注意
 
+- **模糊补全** —— `$` 的匹配是模糊的,不只是前缀匹配:`$impv` 也能命中 `improve-codebase` 这类 skill(字母按顺序出现即可,不必连续)。前缀完全匹配的仍排最前。
 - 采用**最长匹配**:若同时存在 `code-review` 和 `code-review-module`,`$code-review-module` 会命中更长那个。
 - 不是已知 skill 的 token 原样保留 —— `$HOME`、`$PATH`、`$(cmd)` 不受影响。
 - 用 `$$name` 强制输出字面 `$name`。

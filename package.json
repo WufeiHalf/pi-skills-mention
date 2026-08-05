@@ -1,6 +1,6 @@
 {
   "name": "pi-skills-mention",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "codex风格 · 输入$ 拉起skill列表。Codex-style $skill-name mentions for pi: input $ to pull up the skill list and autocomplete, expand any number of skills anywhere in a prompt.",
   "author": "wufei",
