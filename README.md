@@ -21,9 +21,10 @@ Type `$` in the input editor and the skill list appears **immediately** — filt
 ## ✨ Features
 
 - **`$` anywhere** — mention skills in the middle or end of any message, not just at the start.
-- **Multiple at once** — `$code-review $humanize` expands any number of skills in a single message.
+- **Multiple at once** — `$code-review $humanize` loads any number of skills in a single message.
 - **Instant autocomplete** — type `$` and the skill list pops up immediately; filter live as you type.
-- **Safe by default** — only *known* skill names expand; `$PATH`, `$FOO`, `$(cmd)` etc. pass through untouched.
+- **Safe by default** — only *known* skill names load; `$PATH`, `$FOO`, `$(cmd)` etc. pass through untouched.
+- **Prompt never rewritten** — pi stores and displays exactly what you typed, so `/fuck`-style recovery, rewind and re-editing always see your original `$skill` mentions.
 - **Escape hatch** — `$$name` renders as a literal `$name`.
 
 ---
@@ -55,13 +56,15 @@ $tdd 实现这个功能
 $code-review 与 $humanize 帮我审查 auth 模块的改动，并把结论润色成自然的中文。
 ```
 
-Each `$skill-name` is replaced with that skill's full `SKILL.md` instructions before the agent runs — the identical `<skill ...>` block pi itself uses for `/skill:name`, so collapsible skill rendering keeps working.
+Each `$skill-name` loads that skill's full `SKILL.md` instructions before the agent runs — the same `<skill ...>` blocks pi itself uses for `/skill:name`. Your prompt itself is **never rewritten**: pi stores and displays exactly what you typed (with the `$skill` mentions), and the skill contents arrive as a separate context message. The TUI renders it as a compact `✦ skills-mention: name + name (ctrl+o to expand)` line — expand it to see the full skill contents.
+
+Because the stored prompt is your original text, prompt-recovery commands like `/fuck` (pi-wtf), rewind and re-editing all work on your original mentions — no skill-text dump in the editor.
 
 **Autocomplete:** press `$`, the skill picker opens immediately with the full list. Keep typing to narrow it. Press Enter (or arrow + Enter) to insert the selected `$skill-name`.
 
 ### Tips & edges
 
-- **Official collapsible rendering** — when a message *starts* with a single `$skill` (e.g. `$tdd 帮我实现`), the output is byte-for-byte pi's native `/skill:name` shape, so the TUI shows the foldable `[skill]` card (purple tag + name + `ctrl+o to expand`). Mentions that appear mid-sentence, or several skills at once, still expand inline (pi can only fold a whole-message single skill).
+- **Loaded-skills rendering** — mentioned skills show up in the chat as one compact line (`✦ skills-mention: a + b`, `ctrl+o` to expand the full contents). Skills already loaded on the same session branch are not injected again.
 - **Fuzzy autocomplete** — `$` matching is fuzzy, not prefix-only: `$impv` matches `improve-codebase`-style skills (letters in order, not necessarily consecutive). Prefix matches still rank first.
 - Skills resolve greedily to the **longest known match**: if both `code-review` and `code-review-module` exist, `$code-review-module` uses the bigger one.
 - A token that isn't a known skill stays literal — `$HOME`, `$PATH`, `$(cmd)` are untouched.

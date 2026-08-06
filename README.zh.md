@@ -21,9 +21,10 @@
 ## ✨ 特性
 
 - **`$` 任意位置** —— 在消息中间或末尾引用 skill,不限于开头。
-- **一次多个** —— `$code-review $humanize` 在一条消息里展开任意多个 skill。
+- **一次多个** —— `$code-review $humanize` 在一条消息里加载任意多个 skill。
 - **即时补全** —— 敲 `$` 立即弹出 skill 列表,实时输入过滤。
-- **默认安全** —— 只有*已知* skill 名才会展开;`$PATH`、`$FOO`、`$(cmd)` 等原样保留。
+- **默认安全** —— 只有*已知* skill 名才会加载;`$PATH`、`$FOO`、`$(cmd)` 等原样保留。
+- **原文永不改写** —— pi 存储与显示的始终是你输入的原样文本(`$skill` 标记保留),`/fuck` 回退、rewind、重新编辑都看到你的原始输入。
 - **转义兜底** —— `$$name` 输出字面 `$name`。
 
 ---
@@ -55,13 +56,15 @@ $tdd 实现这个功能
 $code-review 与 $humanize 帮我审查 auth 模块的改动，并把结论润色成自然的中文。
 ```
 
-每个 `$skill-name` 会在 agent 运行前被替换成该 skill 的完整 `SKILL.md` 指令 —— 与 pi 原生 `/skill:name` 生成的 `<skill ...>` 块完全一致,因此折叠式 skill 渲染依旧可用。
+每个 `$skill-name` 会在 agent 运行前加载该 skill 的完整 `SKILL.md` 指令 —— 与 pi 原生 `/skill:name` 生成的 `<skill ...>` 块一致。你的**原文永远不会被改写**:pi 存储与显示的始终是你输入的内容(带 `$skill` 标记),skill 内容作为一条独立上下文消息注入。TUI 里它显示为一行紧凑的 `✦ skills-mention: 名字 + 名字 (ctrl+o to expand)`,展开可查看完整 skill 内容。
+
+因为存储的 prompt 就是你的原文,`/fuck`(pi-wtf)、rewind、回退编辑等恢复类功能拿到的都是你原本的 `$skill` 引用 —— 输入框里不会出现大段 skill 文本。
 
 **自动补全:** 敲下 `$`,skill 选择器立刻弹出完整列表。继续输入可实时过滤;回车(或方向键 + 回车)插入选中的 `$skill-name`。
 
 ### 使用注意
 
-- **官方折叠展示** —— 当消息*以**单个 `$skill` 开头(如 `$tdd 帮我实现`)时,输出与 pi 原生 `/skill:name` 完全一致的格式,TUI 会显示可折叠的 `[skill]` 卡片(紫色标签 + 名字 + `ctrl+o to expand`)。如果 skill 出现在句子中间、或一条消息里多个 skill,则仍就地展开(pi 只能折叠"整条消息是单个 skill"的情形)。
+- **加载展示** —— 引用的 skill 在聊天里显示为一行紧凑提示(`✦ skills-mention: a + b`,`ctrl+o` 展开完整内容)。同一会话分支已加载过的 skill 不会重复注入。
 - **模糊补全** —— `$` 的匹配是模糊的,不只是前缀匹配:`$impv` 也能命中 `improve-codebase` 这类 skill(字母按顺序出现即可,不必连续)。前缀完全匹配的仍排最前。
 - 采用**最长匹配**:若同时存在 `code-review` 和 `code-review-module`,`$code-review-module` 会命中更长那个。
 - 不是已知 skill 的 token 原样保留 —— `$HOME`、`$PATH`、`$(cmd)` 不受影响。
